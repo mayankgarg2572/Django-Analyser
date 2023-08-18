@@ -1,0 +1,31 @@
+{% extends "base/base1.html"%} {%block start%}
+
+<section class="section-conten padding-y" style="min-height: 84vh">
+  <div style="display: flex; justify-content: center; align-items: center">
+    {{ForecastGraph| safe }}
+  </div>
+  <div style="display: flex; justify-content: center; align-items: center">
+    {{diagnostic| safe }}
+  </div>
+  <div style="display: flex; justify-content: center; align-items: center">
+    <h3>The model Summary</h3>
+  <p>
+    {{modelSummary}}
+  </p>
+  </div>
+  <div style="display: flex; justify-content: center; align-items: center">
+    <h3>The model Summary</h3>
+  <p>
+    {{result_df}}
+  </p>
+  </div>
+
+  <div style="display: flex; justify-content: center; align-items: center">
+    <h3>The CSV result file:</h3>
+  <p>
+    <a href="data:text/csv;charset=utf-8,{{ csv_data }}" download="data.csv">Download CSV</a>
+  </p>
+  </div>
+</section>
+
+{%endblock%}

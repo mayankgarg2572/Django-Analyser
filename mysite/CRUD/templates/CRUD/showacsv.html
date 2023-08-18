@@ -1,0 +1,204 @@
+
+
+{% extends "base/base1.html"%} 
+<!-- {% load static %} -->
+{%block start%} 
+
+<section class="section-conten padding-y" style="min-height: 84vh">
+    <div class="container">
+      <div class="table-wrapper">
+        <div class="table-title">
+          <div class="row">
+            <div class="col-sm-6">
+              <h2>Manage <b>Sales Reecord</b></h2>
+            </div>
+            <div class="col-sm-6">
+              <a
+                href="#addEmployeeModal"
+                class="btn btn-success"
+                data-toggle="modal"
+                ><i class="material-icons">&#xE147;</i>
+                <span>Add New Sale Entry</span></a
+              >
+              <a
+                href="#deleteEmployeeModal"
+                class="btn btn-danger"
+                data-toggle="modal"
+                ><i class="material-icons">&#xE15C;</i> <span>Delete</span></a
+              >
+              <a
+                href="#runSarima"
+                class="btn btn-success"
+                data-toggle="modal"
+                ><i class="material-icons">&#xE147;</i>
+                <span>Run Sarima on this CSV</span></a
+              >
+            </div>
+          </div>
+        </div>
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>
+                <span class="custom-checkbox">
+                  <input type="checkbox" id="selectAll" />
+                  <label for="selectAll"></label>
+                </span>
+              </th>
+              {% for headname in header%}
+              <th>{{headname}}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in filedata%}
+            <tr>
+              <td>
+                <span class="custom-checkbox">
+                  <input
+                    type="checkbox"
+                    id="checkbox1"
+                    name="options[]"
+                    value="1"
+                  />
+                  <label for="checkbox1"></label>
+                </span>
+              </td>
+              {% for rowdata in row%}
+              <td>{{rowdata}}</td>
+              {% endfor %}
+              <td>
+                <a href="#" class="edit" data-toggle="modal"
+                  ><i class="material-icons" data-toggle="tooltip" title="Edit"
+                    >&#xE254;</i
+                  ></a
+                >
+                <!-- <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a> -->
+                <a href="#" class="delete" data-toggle="modal"
+                  ><i
+                    class="material-icons"
+                    data-toggle="tooltip"
+                    title="Delete"
+                    >&#xE872;</i
+                  ></a
+                >
+                <!-- <a href="#deleteEmployeeModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a> -->
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Add Modal HTML -->
+    <div id="addEmployeeModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="{%url 'CRUD:add' %}" method="POST">
+					{% csrf_token %}
+					<div class="modal-header">						
+						<h4 class="modal-title">Add New Sale Entry</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<div class="form-group">
+							<label>Product Description</label>
+							<input name = "prod_desc" type="text" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Cost</label>
+							<input type="number"  name="cost" min="0" value="0" step=".01" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Date of Purchase</label>
+							<input type="datetime-local" name = "date_of_pur"  class="form-control" required>
+						</div>				
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-success" value="Add">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+  <!-- The Sarima Running model -->
+  <div id="runSarima" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="/seegraph/{{id}} " method="POST">
+					{% csrf_token %}
+					<div class="modal-header">						
+						<h4 class="modal-title">Run Sarima</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-success" value="Run">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+    <!-- Edit Modal HTML -->
+    {% for i in sale%}
+	<div id="editEmployeeModal-{{forloop.counter}}" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="/update/{{i.id}}" method="post">
+					{%csrf_token%}
+					<div class="modal-header">						
+						<h4 class="modal-title">Edit Sale Record</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">
+							<div class="form-group">
+								<label>Product Description</label>
+								<input value="{{i.prod_desc}}" name = "prod_desc" type="text" class="form-control" required>
+							</div>
+							<div class="form-group">
+								<label>Cost</label>
+								<input type="number" value="{{i.cost}}"  name="cost"  step=".01" class="form-control" required>
+							</div>
+							<div class="form-group">
+								<label>Date of Purchase</label>
+								<input type="datetime-local" name = "date_of_pur"  value="{{i.date_of_pur}}" class="form-control" required>
+							</div>				
+						</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-info" value="Update">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+    <!-- Delete Modal HTML -->
+    {% for i in sale%}
+	<div id="deleteEmployeeModal-{{forloop.counter}}" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form >
+					<div class="modal-header">						
+						<h4 class="modal-title">Delete Sale Record</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<p>Are you sure you want to delete these Records?</p>
+						<p class="text-warning"><small>This action cannot be undone.</small></p>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<a href ="/delete/{{i.id}}" type="submit" class="btn btn-danger">Delete</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+             
+</section>
+
+{%endblock%}

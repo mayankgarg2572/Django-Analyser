@@ -1,0 +1,76 @@
+{% extends "base/base1.html"%} {%block start%}
+
+<section class="section-conten padding-y" style="min-height: 84vh">
+  <div style="display: flex; justify-content: center; align-items: center">
+    {{ graph.basicPlot|safe }}
+  </div>
+  <div style="display: flex; justify-content: center; align-items: center">
+    {{graph.acf| safe }}
+  </div>
+  <div>
+    <h3>The AD Fuller Test Statistics:-</h3>
+    <div>ADF Statistic: {{graph.adfullerresult}}</div>
+  </div>
+  
+  <!-- <div>
+    <h3>The Kpss Test Statistics:-</h3>
+    <p></p>
+  </div> -->
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center">
+  <h2>Log Dif plots</h2>
+  <div class="dropdown">
+    <form action="/varPlot/{{id}}" method="post">
+      {% csrf_token %}
+      <label for="quantity">Log difference that you want(between 1 and 5):</label>
+      <input type="number" id="dif" name="dif" min="1" max="5" value="{{dif}}">
+      <input type="submit">
+    </form>
+  </div>
+  <div style="display: flex; flex-direction: column;  justify-content: center; align-items: center">
+    <h3>Basic Plot</h3>
+    {{graph.log_dif_plot.basic| safe }}
+  </div>
+  <div style="display: flex; flex-direction: column;  justify-content: center; align-items: center">
+    <h3>ACF-PACF Plot of Logarithemic Difference</h3>
+    {{graph.log_dif_plot.acf| safe }}
+  </div>
+</div>
+  <div>
+    <form action="/sarimaAnalysis/{{id}} " method="POST" class="show-loading-after-submit">
+      {% csrf_token %}
+      <h3>Select the following parameters ranges that suits you best.</h3>
+      <div style="display:inline">
+        <h4>P (no. of Lags)</h4>
+        <label>Start:</label>
+        <input type="number" required id="quantity" name="pStart" min="0" max="5" value="1">
+        <label>
+          End:
+        </label>
+        <input type="number" required id="quantity" name="pEnd" min="0" max="5" value="5">
+      </div>
+      <div style="display:inline">
+        <h4>Q (Size of Moving Average window)</h4>
+        <label>Start:</label>
+        <input type="number" required id="quantity" name="qStart" min="0" max="5" value="1">
+        <label>
+          End:
+        </label>
+        <input type="number"required  id="quantity" name="qEnd" min="0" max="5" value="5">  
+      </div>
+      <div style="display:inline">
+        <h4>D (no. of differencing terms):</h4>
+        <input type="number" required id="quantity" name="diff" min="1" max="5" value="1">
+      </div>
+      <div style="display:inline">
+        <h4>Season:</h4>
+        <input type="number" required id="quantity" name="season" min="1" max="12" value="12">
+      </div>
+      
+      <label for="quantity">Now lets run Sarima on your database</label>
+      <input type="submit">
+    </form>
+  </div>
+
+</section>
+
+{%endblock%}
