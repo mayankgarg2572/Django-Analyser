@@ -1,0 +1,19 @@
+# Ignore Visual Studio Code settings
+/.vscode/
+/myenv/
+/media/
+/mysite/accounts/__pycache__/
+/mysite/accounts/migrations/
+/mysite/accounts/__pycache__/
+/mysite/accounts/migrations/
+/mysite/base/__pycache__/
+/mysite/base/migrations/
+/mysite/CRUD/__pycache__/
+/mysite/CRUD/migrations/
+/mysite/csvs/__pycache__/
+/mysite/csvs/migrations/
+/mysite/mysite/__pycache__/
+/mysite/db.sqlite3
+/mysite/polls/
+/mysite/public/
+

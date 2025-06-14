@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-
+# C:\Users\HP\AppData\Local\Programs\Python\Python310\
+# virtualenv -p C:\Users\HP\AppData\Local\Programs\Python\Python310\python.exe myenv
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -49,6 +50,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    
     'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -96,12 +98,29 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+# import os
+# import urllib.parse as up
+
+# up.uses_netloc.append("postgres")
+# url = up.urlparse(os.environ["postgres://lemoogvg:3zr3DP9hZyBc5OX_RH5vtUsXJaDuf3S9@floppy.db.elephantsql.com/lemoogvg"])
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # URL : postgres://lemoogvg:3zr3DP9hZyBc5OX_RH5vtUsXJaDuf3S9@floppy.db.elephantsql.com/lemoogvg
+# Password : 3zr3DP9hZyBc5OX_RH5vtUsXJaDuf3S9
+# User & Default database:	lemoogvg
+# API Key: e96b533e-32d9-42b6-b46c-e459ac84ecfc
+    # 'default': {
+    # 'ENGINE': 'django.db.backends.postgresql',
+    # 'NAME': url.path[1:],
+    # 'USER':'lemoogvg',
+    # 'PASSWORD':'3zr3DP9hZyBc5OX_RH5vtUsXJaDuf3S9', 
+    # 'HOST':url.hostname,
+    # 'PORT': url.port
+    # }
 }
 
 
@@ -136,6 +155,7 @@ USE_I18N = True
 USE_TZ = True
 
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -149,7 +169,6 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
 
 # To start the virtual environment:  my_project_venv\Scripts\activate in administrator terminal(not possible in vs code)
 # Then run the server : python manage.py runserver
-
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
